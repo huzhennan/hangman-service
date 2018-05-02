@@ -58,7 +58,7 @@ public class ResponseDTO {
         data.put("sessionId", gameSession.getSessionId());
         data.put("totalWordCount", gameSession.getCurrentWordId());
         data.put("correctWordCount", gameSession.getCorrectWordCount());
-        data.put("totalWrongGuessCount", gameSession.getWrongGuessCountOfCurrentWord());
+        data.put("totalWrongGuessCount", gameSession.getTotalWrongGuessCount());
         data.put("score", gameSession.getScore());
         data.put("datetime", gameSession.getSubmittedAt());
 
