@@ -1,8 +1,6 @@
 package com.example.hangmanservice;
 
 import com.example.hangmanservice.dto.RequestDTO;
-import com.example.hangmanservice.dto.ResponseDTO;
-import com.example.hangmanservice.exception.GameSessionNotFoundException;
 import com.example.hangmanservice.model.GameSession;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +24,7 @@ public class GameServiceTest {
     }
 
     @Test
-    public void testNextWord() throws GameSessionNotFoundException {
+    public void testNextWord() {
         RequestDTO requestDTO = new RequestDTO("example@test.com", null, "startGame");
         GameSession gameSession = gameService.createOrGetGameSession(requestDTO);
 
@@ -35,13 +33,4 @@ public class GameServiceTest {
         System.out.println(nextSession);
         System.out.println("----------------");
     }
-
-//    @Test(expected = GameSessionNotFoundException.class)
-//    public void testNextWordWithWrongSessionId() throws GameSessionNotFoundException {
-//
-//        ResponseDTO responseDTO2 = gameService.nextWord(new RequestDTO(null, "wrong-session-id", "nextWord"));
-//        System.out.println("----------------");
-//        System.out.println(responseDTO2);
-//        System.out.println("----------------");
-//    }
 }

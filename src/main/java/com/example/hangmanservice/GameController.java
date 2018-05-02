@@ -3,6 +3,7 @@ package com.example.hangmanservice;
 import com.example.hangmanservice.dto.ErrorDTO;
 import com.example.hangmanservice.dto.RequestDTO;
 import com.example.hangmanservice.dto.ResponseDTO;
+import com.example.hangmanservice.exception.GameSessionException;
 import com.example.hangmanservice.model.GameSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -38,8 +39,17 @@ public class GameController {
             }
             case "guess": {
                 String guessedLetter = requestDTO.getGuess();
-                GameSession nextSession = gameService.guess(gameSession, guessedLetter);
+                GameSession nextSession = null;
+                try {
+                     nextSession = gameService.guess(gameSession, guessedLetter);
+                } catch (GameSessionException e) {
+                    ErrorDTO error = new ErrorDTO("game-error-guess", e.getMessage());
+                    return ResponseEntity.status(400).body(error);
+                }
                 return ResponseEntity.ok(ResponseDTO.word(nextSession));
+            }
+            case "getResult": {
+                return ResponseEntity.ok(ResponseDTO.result(gameSession));
             }
         }
 

@@ -2,6 +2,7 @@ package com.example.hangmanservice;
 
 import com.example.hangmanservice.dto.RequestDTO;
 import com.example.hangmanservice.dto.ResponseDTO;
+import com.example.hangmanservice.exception.GameSessionException;
 import com.example.hangmanservice.model.GameSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class GameService {
     @Autowired
     private GameSessionRepository sessionRepository;
 
-    public GameSession guess(GameSession gameSession, String guessLetter) {
+    public GameSession guess(GameSession gameSession, String guessLetter) throws GameSessionException {
         gameSession.guess(guessLetter);
         sessionRepository.save(gameSession);
         return gameSession;

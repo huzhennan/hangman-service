@@ -1,6 +1,7 @@
 package com.example.hangmanservice.dto;
 
 import com.example.hangmanservice.model.GameSession;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import java.util.HashMap;
@@ -8,6 +9,7 @@ import java.util.Map;
 
 @Data
 public class ResponseDTO {
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String message;
     private String sessionId;
 
@@ -33,9 +35,19 @@ public class ResponseDTO {
 
     public static ResponseDTO word(GameSession gameSession) {
         Map<String, Object> data = new HashMap<>();
-        data.put("word", gameSession.getCurrentWord());
+        data.put("word", gameSession.getDisplayedWord());
         data.put("totalWordCount", gameSession.getCurrentWordId());
         data.put("wrongGuessCountOfCurrentWord", gameSession.getWrongGuessCountOfCurrentWord());
+
+        return new ResponseDTO(gameSession.getSessionId(), data);
+    }
+
+    public static Object result(GameSession gameSession) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("word", gameSession.getDisplayedWord());
+        data.put("totalWordCount", gameSession.getCurrentWordId());
+        data.put("wrongGuessCountOfCurrentWord", gameSession.getWrongGuessCountOfCurrentWord());
+        data.put("score", gameSession.getScore());
 
         return new ResponseDTO(gameSession.getSessionId(), data);
     }
