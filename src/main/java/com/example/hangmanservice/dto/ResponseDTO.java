@@ -51,4 +51,17 @@ public class ResponseDTO {
 
         return new ResponseDTO(gameSession.getSessionId(), data);
     }
+
+    public static Object done(GameSession gameSession) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("playerId", gameSession.getPlayerId());
+        data.put("sessionId", gameSession.getSessionId());
+        data.put("totalWordCount", gameSession.getCurrentWordId());
+        data.put("correctWordCount", gameSession.getCorrectWordCount());
+        data.put("totalWrongGuessCount", gameSession.getWrongGuessCountOfCurrentWord());
+        data.put("score", gameSession.getScore());
+        data.put("datetime", gameSession.getSubmittedAt());
+
+        return new ResponseDTO(gameSession.getSessionId(), data);
+    }
 }

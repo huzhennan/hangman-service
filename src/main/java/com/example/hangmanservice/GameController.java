@@ -27,6 +27,11 @@ public class GameController {
             return ResponseEntity.status(404).body(errorDTO);
         }
 
+        if (gameSession.isHasSubmitted()) {
+            ErrorDTO errorDTO = new ErrorDTO("game-session-has-submitted", "this session has submitted.");
+            return ResponseEntity.status(400).body(errorDTO);
+        }
+
         String action = requestDTO.getAction();
         switch (action) {
             case "startGame": {
@@ -57,6 +62,10 @@ public class GameController {
             }
             case "getResult": {
                 return ResponseEntity.ok(ResponseDTO.result(gameSession));
+            }
+            case "submitResult": {
+                gameService.submit(gameSession);
+                return ResponseEntity.ok(ResponseDTO.done(gameSession));
             }
         }
 

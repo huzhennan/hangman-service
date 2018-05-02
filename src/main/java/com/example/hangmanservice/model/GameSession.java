@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -32,7 +33,11 @@ public class GameSession {
     private CurrentWordState state = CurrentWordState.INITIALIZED;
     private String guessedLetters = "";
 
+    private int correctWordCount = 0;
+    private int totalWrongGuessCount = 0;
     private int score = 0;
+    private boolean hasSubmitted = false;
+    private Date submittedAt;
 
     public GameSession() {
     }
@@ -77,6 +82,12 @@ public class GameSession {
         return this;
     }
 
+    public GameSession submit() {
+        this.hasSubmitted = true;
+        this.submittedAt = new Date();
+        return this;
+    }
+
     private void updateState() {
         if (state == CurrentWordState.STARTED) {
             Set<Character> guessedLettersSet = guessedLetters.codePoints()
@@ -86,6 +97,8 @@ public class GameSession {
             if (guessedLettersSet.containsAll(currentWordLettersSet)) {
                 this.state = CurrentWordState.END;
 
+                totalWrongGuessCount += wrongGuessCountOfCurrentWord;
+                correctWordCount += 1;
                 score += 20 - wrongGuessCountOfCurrentWord;
             }
         }

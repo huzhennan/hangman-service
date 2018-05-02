@@ -40,6 +40,12 @@ public class GameService {
         return gameSession;
     }
 
+    public GameSession submit(GameSession gameSession) {
+        gameSession.submit();
+        sessionRepository.save(gameSession);
+        return gameSession;
+    }
+
     public GameSession createOrGetGameSession(RequestDTO requestDTO) {
         if (requestDTO.getAction().equals("startGame")) {
             Assert.notNull(requestDTO.getPlayerId(), "player id is null");
