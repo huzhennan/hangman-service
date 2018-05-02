@@ -3,6 +3,7 @@ package com.example.hangmanservice;
 import com.example.hangmanservice.dto.RequestDTO;
 import com.example.hangmanservice.exception.GameSessionException;
 import com.example.hangmanservice.model.GameSession;
+import com.example.hangmanservice.service.GameService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

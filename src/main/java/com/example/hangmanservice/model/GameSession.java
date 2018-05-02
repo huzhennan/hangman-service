@@ -93,10 +93,10 @@ public class GameSession {
 
     public String getDisplayedWord() {
         Set<Character> guessedLettersSet = guessedLetters.codePoints()
-                .mapToObj(i -> (char)i).collect(Collectors.toSet());
+                .mapToObj(i -> (char) i).collect(Collectors.toSet());
 
         final StringBuilder result = new StringBuilder();
-        currentWord.codePoints().mapToObj(i -> (char)i).map(character -> {
+        currentWord.codePoints().mapToObj(i -> (char) i).map(character -> {
             if (guessedLettersSet.contains(character)) {
                 return character;
             } else {

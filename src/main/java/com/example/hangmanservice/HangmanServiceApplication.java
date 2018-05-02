@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class HangmanServiceApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(HangmanServiceApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(HangmanServiceApplication.class, args);
+    }
 }

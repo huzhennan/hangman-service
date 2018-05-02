@@ -5,6 +5,7 @@ import com.example.hangmanservice.dto.RequestDTO;
 import com.example.hangmanservice.dto.ResponseDTO;
 import com.example.hangmanservice.exception.GameSessionException;
 import com.example.hangmanservice.model.GameSession;
+import com.example.hangmanservice.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,7 +37,7 @@ public class GameController {
             case "nextWord": {
                 GameSession nextSession = null;
                 try {
-                      nextSession =gameService.nextWord(gameSession);
+                    nextSession = gameService.nextWord(gameSession);
                 } catch (GameSessionException e) {
                     ErrorDTO errorDTO = new ErrorDTO("game-session-operation-failed", e.getMessage());
                     return ResponseEntity.status(400).body(errorDTO);
@@ -47,7 +48,7 @@ public class GameController {
                 String guessedLetter = requestDTO.getGuess();
                 GameSession nextSession = null;
                 try {
-                     nextSession = gameService.guess(gameSession, guessedLetter);
+                    nextSession = gameService.guess(gameSession, guessedLetter);
                 } catch (GameSessionException e) {
                     ErrorDTO error = new ErrorDTO("game-error-guess", e.getMessage());
                     return ResponseEntity.status(400).body(error);
