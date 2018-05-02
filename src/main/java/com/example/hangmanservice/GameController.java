@@ -30,12 +30,18 @@ public class GameController {
         switch (action) {
             case "startGame": {
                 return ResponseEntity.ok(ResponseDTO.started(gameSession.getSessionId(),
-                        GameService.NUMBER_OF_WORDS_TO_GUESS,
-                        GameService.NUMBER_OF_GUESS_ALLOWED_FOR_EACH_WORD));
+                        GameSession.NUMBER_OF_WORDS_TO_GUESS,
+                        GameSession.NUMBER_OF_GUESS_ALLOWED_FOR_EACH_WORD));
             }
             case "nextWord": {
-                GameSession session = gameService.nextWord(gameSession);
-                return ResponseEntity.ok(ResponseDTO.word(session));
+                GameSession nextSession = null;
+                try {
+                      nextSession =gameService.nextWord(gameSession);
+                } catch (GameSessionException e) {
+                    ErrorDTO errorDTO = new ErrorDTO("game-session-operation-failed", e.getMessage());
+                    return ResponseEntity.status(400).body(errorDTO);
+                }
+                return ResponseEntity.ok(ResponseDTO.word(nextSession));
             }
             case "guess": {
                 String guessedLetter = requestDTO.getGuess();

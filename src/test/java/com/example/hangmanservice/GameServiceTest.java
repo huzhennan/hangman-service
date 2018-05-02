@@ -1,6 +1,7 @@
 package com.example.hangmanservice;
 
 import com.example.hangmanservice.dto.RequestDTO;
+import com.example.hangmanservice.exception.GameSessionException;
 import com.example.hangmanservice.model.GameSession;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +25,7 @@ public class GameServiceTest {
     }
 
     @Test
-    public void testNextWord() {
+    public void testNextWord() throws GameSessionException {
         RequestDTO requestDTO = new RequestDTO("example@test.com", null, "startGame");
         GameSession gameSession = gameService.createOrGetGameSession(requestDTO);
 

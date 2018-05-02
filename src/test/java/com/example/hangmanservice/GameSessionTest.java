@@ -32,7 +32,7 @@ public class GameSessionTest {
     }
 
     @Test
-    public void testGetScore() {
+    public void testGetScore() throws GameSessionException {
         GameSession gameSession = new GameSession("example@domain.com");
         gameSession.nextWord("hello");
 
@@ -52,9 +52,10 @@ public class GameSessionTest {
     @Test
     public void testGetScoreWithWrongGuess() {
         GameSession gameSession = new GameSession("example@domain.com");
-        gameSession.nextWord("hello");
 
         try {
+            gameSession.nextWord("hello");
+
             gameSession.guess("h");
             gameSession.guess("e");
             gameSession.guess("a");
@@ -65,5 +66,13 @@ public class GameSessionTest {
         }
 
         Assert.assertEquals(gameSession.getScore(), 19);
+    }
+
+    @Test(expected = GameSessionException.class)
+    public void testHadGuessedAll() throws GameSessionException {
+        GameSession gameSession = new GameSession("example@domain.com");
+        gameSession.setCurrentWordId(79);
+
+        gameSession.nextWord("world");
     }
 }

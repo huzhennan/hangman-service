@@ -14,6 +14,9 @@ import java.util.stream.Collectors;
 @Data
 @Entity
 public class GameSession {
+    public static final long NUMBER_OF_WORDS_TO_GUESS = 80;
+    public static final long NUMBER_OF_GUESS_ALLOWED_FOR_EACH_WORD = 10;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -39,7 +42,11 @@ public class GameSession {
         this.sessionId = UUID.randomUUID().toString();
     }
 
-    public GameSession nextWord(String word) {
+    public GameSession nextWord(String word) throws GameSessionException {
+        if (currentWordId >= NUMBER_OF_WORDS_TO_GUESS - 1) {
+            throw new GameSessionException("GAME ERROR: haved guessed 80 words");
+        }
+
         currentWordId++;
         currentWord = word;
         guessCountOfCurrentWord = 0;
@@ -53,6 +60,10 @@ public class GameSession {
     public GameSession guess(String letter) throws GameSessionException {
         if (state == CurrentWordState.INITIALIZED || state == CurrentWordState.END) {
             throw new GameSessionException("GAME ERROR: need a word to start");
+        }
+
+        if (guessCountOfCurrentWord > NUMBER_OF_GUESS_ALLOWED_FOR_EACH_WORD) {
+            throw new GameSessionException("GAME ERROR: had guess 10 times, can't guess again");
         }
 
         guessCountOfCurrentWord++;

@@ -13,9 +13,6 @@ import java.util.Map;
 
 @Service
 public class GameService {
-    public static final long NUMBER_OF_WORDS_TO_GUESS = 80;
-    public static final long NUMBER_OF_GUESS_ALLOWED_FOR_EACH_WORD = 10;
-
     @Autowired
     private GameSessionRepository sessionRepository;
 
@@ -25,7 +22,7 @@ public class GameService {
         return gameSession;
     }
 
-    public GameSession nextWord(GameSession gameSession) {
+    public GameSession nextWord(GameSession gameSession) throws GameSessionException {
         String word = "happy";
         gameSession.nextWord(word);
         sessionRepository.save(gameSession);
