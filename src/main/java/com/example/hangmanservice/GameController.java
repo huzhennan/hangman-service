@@ -13,6 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.groups.Default;
+import java.util.Set;
+
 @RestController
 public class GameController {
     @Autowired
@@ -20,6 +26,12 @@ public class GameController {
 
     @RequestMapping(path = "/game/on", method = RequestMethod.POST)
     public ResponseEntity game(@RequestBody RequestDTO requestDTO) {
+        ConstraintViolation<RequestDTO> item = validateRequest(requestDTO);
+        if (item != null) {
+            String message = String.format("%s %s", item.getPropertyPath().toString(), item.getMessage());
+            ErrorDTO errorDTO = new ErrorDTO("request-validate-fail", message);
+            return ResponseEntity.status(400).body(errorDTO);
+        }
 
         GameSession gameSession = gameService.createOrGetGameSession(requestDTO);
         if (gameSession == null) {
@@ -71,5 +83,42 @@ public class GameController {
 
 
         return ResponseEntity.notFound().build();
+    }
+
+    private ConstraintViolation<RequestDTO> validateRequest(RequestDTO requestDTO) {
+        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+        Set<ConstraintViolation<RequestDTO>> defaultConstraintViolations =
+                validator.validate(requestDTO, Default.class);
+        if (!defaultConstraintViolations.isEmpty()) {
+            return defaultConstraintViolations.iterator().next();
+        }
+
+        String action = requestDTO.getAction();
+        switch (action) {
+            case "startGame": {
+                Set<ConstraintViolation<RequestDTO>> constraintViolations1 = validator.validate(requestDTO, RequestDTO.ValidationPlayId.class);
+                if (!constraintViolations1.isEmpty()) {
+                    return constraintViolations1.iterator().next();
+                }
+                break;
+            }
+            case "nextWord":
+            case "getResult":
+            case "submitResult": {
+                Set<ConstraintViolation<RequestDTO>> constraintViolations2 = validator.validate(requestDTO, RequestDTO.ValidationSessionId.class);
+                if (!constraintViolations2.isEmpty()) {
+                    return constraintViolations2.iterator().next();
+                }
+                break;
+            }
+            case "guess": {
+                Set<ConstraintViolation<RequestDTO>> constraintViolations3 = validator.validate(requestDTO, RequestDTO.ValidationGuess.class);
+                if (!constraintViolations3.isEmpty()) {
+                    return constraintViolations3.iterator().next();
+                }
+                break;
+            }
+        }
+        return null;
     }
 }
