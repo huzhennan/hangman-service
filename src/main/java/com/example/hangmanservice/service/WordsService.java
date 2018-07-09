@@ -35,7 +35,9 @@ public class WordsService {
             Path path = Paths.get(getClass().getClassLoader().getResource("words.txt").toURI());
             words = Files.readAllLines(path);
 
-            words.stream().map(String::toUpperCase).forEach(word -> {
+            words.stream()
+                    .filter(s -> s.matches("^[a-zA-Z]+$"))
+                    .map(String::toUpperCase).forEach(word -> {
                 if (word.length() <= 5) {
                     lengthLessThan5Words.add(word);
                 }
