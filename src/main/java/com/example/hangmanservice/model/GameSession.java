@@ -48,7 +48,7 @@ public class GameSession {
     }
 
     public GameSession nextWord(String word) throws GameSessionException {
-        if (currentWordId >= NUMBER_OF_WORDS_TO_GUESS - 1) {
+        if (currentWordId >= NUMBER_OF_WORDS_TO_GUESS) {
             throw new GameSessionException("GAME ERROR: haved guessed 80 words");
         }
 
