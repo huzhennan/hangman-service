@@ -5,7 +5,10 @@ Introduction
 ------------
 
 > 使用java spring写的Hangman服务端
+
 > Demo地址: http://172.105.234.63:8080/game/on
+
+> 使用做**任意**邮箱都可以开始 
 
 This test is based on the famous [Hangman Game](http://en.wikipedia.org/wiki/Hangman_(game)).
 Your task is to write a program to play Hangman, guessing words from our server through a RESTful API.
