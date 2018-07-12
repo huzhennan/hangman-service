@@ -71,7 +71,7 @@ public class GameSessionTest {
     @Test(expected = GameSessionException.class)
     public void testHadGuessedAll() throws GameSessionException {
         GameSession gameSession = new GameSession("example@domain.com");
-        gameSession.setCurrentWordId(79);
+        gameSession.setCurrentWordId(80);
 
         gameSession.nextWord("world");
     }
