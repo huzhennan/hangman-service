@@ -16,7 +16,7 @@ public class RequestDTO {
     @NotBlank(groups = {ValidationSessionId.class, ValidationGuess.class})
     private String sessionId;
     @NotBlank
-    @Pattern(regexp = "startGame|nextWord|guess|getResult|submitResult")
+    @Pattern(regexp = "startGame|nextWord|guessWord|getResult|submitResult")
     private String action;
     @NotBlank(groups = {ValidationGuess.class})
     @Size(min = 1, max = 1)
