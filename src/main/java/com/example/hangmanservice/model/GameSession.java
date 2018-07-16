@@ -108,15 +108,19 @@ public class GameSession {
         Set<Character> guessedLettersSet = guessedLetters.codePoints()
                 .mapToObj(i -> (char) i).collect(Collectors.toSet());
 
-        final StringBuilder result = new StringBuilder();
-        currentWord.codePoints().mapToObj(i -> (char) i).map(character -> {
-            if (guessedLettersSet.contains(character)) {
-                return character;
-            } else {
-                return '*';
-            }
-        }).forEach(result::append);
+        if (currentWord != null) {
+            final StringBuilder result = new StringBuilder();
+            currentWord.codePoints().mapToObj(i -> (char) i).map(character -> {
+                if (guessedLettersSet.contains(character)) {
+                    return character;
+                } else {
+                    return '*';
+                }
+            }).forEach(result::append);
 
-        return result.toString();
+            return result.toString();
+        } else {
+            return "";
+        }
     }
 }
